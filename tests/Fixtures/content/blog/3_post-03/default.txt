@@ -1,0 +1,5 @@
+Title: Post
+
+----
+
+Text: Post text

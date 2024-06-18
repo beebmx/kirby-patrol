@@ -1,0 +1,5 @@
+title: Restricted
+
+permissions:
+  patrol:
+    access: false

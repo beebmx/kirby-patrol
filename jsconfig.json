@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["kirby/panel/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "public"]
+}
