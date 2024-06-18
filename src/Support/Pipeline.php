@@ -16,9 +16,7 @@ class Pipeline
 
     protected string $method = 'handle';
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function send(mixed $passable): static
     {

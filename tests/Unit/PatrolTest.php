@@ -120,6 +120,23 @@ describe('access', function () {
         expect($this->patrol->can(role: $this->editor, page: $page))
             ->toBeFalse();
     });
+
+    it('returns if page as string exists in the permission collection', function () {
+        expect($this->patrol->exists('non-existent-page'))
+            ->toBeFalse();
+    });
+
+    it('returns if page as object exists in the permission collection', function () {
+        $page = Kirby::instance()->site()->pages()->get('blog');
+
+        expect($this->patrol->exists($page))
+            ->toBeTrue();
+    });
+
+    it('returns if no page exists in the permission collection', function () {
+        expect($this->patrol->exists(null))
+            ->toBeFalse();
+    });
 });
 
 describe('advance', function () {

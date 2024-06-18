@@ -127,6 +127,37 @@ describe('disabled', function () {
     })->throwsNoExceptions();
 });
 
+describe('guest', function () {
+    beforeEach(function () {
+        $this->kirby = App();
+
+        $this->patrol = new Patrol($this->kirby);
+        $this->admin = Role::admin();
+        $this->editor = $this->patrol->roles()->get('editor');
+        $this->patrol->store(role: $this->admin, permissions: ['blog' => true]);
+        $this->patrol->store(role: $this->editor, permissions: ['blog' => false]);
+
+        $this->data = [
+            'kirby' => $this->kirby,
+            'site' => $site = $this->kirby->site(),
+            'pages' => $site->pages(),
+            'page' => $this->kirby->page('home'),
+        ];
+    });
+
+    it('wont throws if a guest access to a none validating page', function () {
+        $middleware = new PatrolMiddleware;
+        $middleware->handle($this->data, fn () => $this->data);
+    })->throwsNoExceptions();
+
+    it('wont throws if a guest access to an invalid page', function () {
+        $this->data['page'] = $this->kirby->page('invalid');
+
+        $middleware = new PatrolMiddleware;
+        $middleware->handle($this->data, fn () => $this->data);
+    })->throwsNoExceptions();
+});
+
 afterAll(function () {
     Dir::remove(storage('patrol'));
 });

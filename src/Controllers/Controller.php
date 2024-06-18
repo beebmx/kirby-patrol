@@ -6,7 +6,5 @@ use Kirby\Cms\App as Kirby;
 
 class Controller
 {
-    public function __construct(protected Kirby $kirby)
-    {
-    }
+    public function __construct(protected Kirby $kirby) {}
 }

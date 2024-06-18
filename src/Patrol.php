@@ -58,7 +58,7 @@ class Patrol
         return $this->content;
     }
 
-    public function permission(): Permissions
+    public function permissions(): Permissions
     {
         return $this->permissions;
     }
@@ -105,6 +105,19 @@ class Patrol
         }
 
         return $permissions[$page];
+    }
+
+    public function exists(Page|string|null $page): bool
+    {
+        $page = $page instanceof Page
+            ? $page->id()
+            : $page;
+
+        if (is_null($page)) {
+            return false;
+        }
+
+        return in_array($page, array_keys($this->permissions->toArray()));
     }
 
     public function middleware(): array

@@ -14,7 +14,7 @@ class PatrolMiddleware extends Middleware
     {
         $kirby = Kirby::instance();
 
-        if ($kirby->option('beebmx.kirby-patrol.permissions.enabled', true)) {
+        if ($kirby->option('beebmx.kirby-patrol.permissions.enabled', true) && Patrol::exists(page: $data['page'])) {
             if (Patrol::can(role: $kirby->user()->role(), page: $data['page']->id()) === false) {
                 return $kirby->option('beebmx.kirby-patrol.permissions.redirect') !== null
                     ? Response::redirect($kirby->option('beebmx.kirby-patrol.permissions.redirect'), 401)
