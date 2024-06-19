@@ -3,7 +3,7 @@
   "description": "Kirby Patrol for Kirby 4",
   "license": "MIT",
   "type": "kirby-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": [
     "kirby",
     "kirby-4",
@@ -18,7 +18,8 @@
   ],
   "require": {
     "php": "^8.2",
-    "getkirby/composer-installer": "^1.1"
+    "getkirby/composer-installer": "^1.1",
+    "beebmx/pipeline": "^1.0"
   },
   "require-dev": {
     "laravel/pint": "^1.10",

@@ -2,7 +2,7 @@
 
 namespace Beebmx\KirbyPatrol\Facades;
 
-use Beebmx\KirbyPatrol\Support\Pipeline as P;
+use Beebmx\Pipeline\Pipeline as P;
 use Kirby\Toolkit\Facade;
 
 class Pipeline extends Facade
