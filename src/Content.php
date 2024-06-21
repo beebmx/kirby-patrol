@@ -79,11 +79,28 @@ class Content
     {
         return $pages->map(
             fn (Page|array $page) => is_array($page)
-                ? $page
+                ? $this->parsePage($page)
                 : array_merge([
-                    ...$page->toArray(),
+                    ...$this->parsePage($page->toArray()),
                     'children' => $depth < $this->depth ? $this->getContent($page->children()->sortBy($this->sort, $this->direction), $depth + 1) : [],
                 ])
         )->data();
+    }
+
+    protected function parsePage(array $page): array
+    {
+        return [
+            'children' => $page['children'],
+            'content' => $page['content'],
+            'id' => $page['id'],
+            'mediaRoot' => $page['mediaRoot'],
+            'mediaUrl' => $page['mediaUrl'],
+            'num' => $page['num'],
+            'parent' => $page['parent'],
+            'slug' => $page['slug'],
+            'uid' => $page['uid'],
+            'uri' => $page['uri'],
+            'url' => $page['url'],
+        ];
     }
 }

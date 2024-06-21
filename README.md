@@ -66,9 +66,11 @@ use Kirby\Cms\Pages;
 use Kirby\Cms\Site;
 
 'beebmx.kirby-patrol' => [
-    'query' => function (Site $site, Pages $pages, App $kirby): Pages {
-        return $site->find('secure-page')->children()->listed();
-    },
+    'content' => [
+        'query' => function (Site $site, Pages $pages, App $kirby) {
+            return $site->find('secure-page')->children()->listed();
+        },
+    ],
 ],
 ```
 
@@ -76,7 +78,9 @@ And if you need to update the `depth` of the pages displayed, update the `config
 
 ```php
 'beebmx.kirby-patrol' => [
-    'depth' => 3,
+    'content' => [
+        'depth' => 3,
+    ],
 ],
 ```
 

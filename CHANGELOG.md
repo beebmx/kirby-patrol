@@ -2,6 +2,11 @@
 
 All notable changes to `Kirby Patrol` will be documented in this file.
 
+## 1.0.4 - 2024-06-21
+
+- Fixed an error parsing content
+- Update README
+
 ## 1.0.3 - 2024-06-21
 
 - Added the ability to sort content
