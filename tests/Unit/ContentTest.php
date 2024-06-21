@@ -51,7 +51,7 @@ describe('basic', function () {
 describe('advance', function () {
     it('returns a specific query collection', function () {
         $content = new Content(App(options: [
-            'beebmx.kirby-patrol.query' => function (Site $site, Pages $pages, Kirby $kirby): Pages {
+            'beebmx.kirby-patrol.content.query' => function (Site $site, Pages $pages, Kirby $kirby): Pages {
                 return $site->find('content')->children()->listed();
             },
         ]));
@@ -67,7 +67,7 @@ describe('advance', function () {
 
     it('can update the depth limit', function () {
         $content = new Content(App(options: [
-            'beebmx.kirby-patrol.depth' => 3,
+            'beebmx.kirby-patrol.content.depth' => 3,
         ]));
 
         expect($content->toArray())
@@ -87,12 +87,25 @@ describe('advance', function () {
             ->toHaveKey('blog.children.blog/post-03.content.title', 'Post')
             ->not->toHaveKey('extra');
     });
+
+    it('can update the sort value', function () {
+        $content = new Content(App(options: [
+            'beebmx.kirby-patrol.content.depth' => 2,
+            'beebmx.kirby-patrol.content.direction' => 'desc',
+            'beebmx.kirby-patrol.content.sort' => 'num',
+        ]));
+
+        expect($content->toArray())
+            ->toHaveKeys(['content', 'blog'])
+            ->and(array_key_first($content->toArray()))->toEqual('content')
+            ->and(array_key_last($content->toArray()))->toEqual('blog');
+    });
 });
 
 describe('invalid data', function () {
     it('returns pages even with invalid data', function () {
         $content = new Content(App(options: [
-            'beebmx.kirby-patrol.query' => function (Site $site, Pages $pages, Kirby $kirby) {
+            'beebmx.kirby-patrol.content.query' => function (Site $site, Pages $pages, Kirby $kirby) {
                 return $site->find('invalid');
             },
         ]));

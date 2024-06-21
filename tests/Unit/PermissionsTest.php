@@ -38,7 +38,7 @@ describe('basic', function () {
 describe('advance', function () {
     beforeEach(function () {
         $this->permissions = new Permissions(App(), new Content(App(options: [
-            'beebmx.kirby-patrol.depth' => 3,
+            'beebmx.kirby-patrol.content.depth' => 3,
         ])));
     });
 

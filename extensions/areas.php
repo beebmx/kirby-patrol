@@ -39,7 +39,7 @@ return [
                         'title' => $kirby->option('beebmx.kirby-patrol.name', 'Patrol'),
                         'props' => [
                             'columns' => Patrol::columns(
-                                $kirby->option('beebmx.kirby-patrol.columns', 4)
+                                $kirby->option('beebmx.kirby-patrol.content.columns', 2)
                             ),
                             'content' => Patrol::content()->toArray(),
                             'patrol' => Patrol::for($role),

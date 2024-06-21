@@ -17,6 +17,10 @@ class Content
 
     protected int $depth;
 
+    protected string $sort;
+
+    protected string $direction;
+
     public function __construct(protected Kirby $kirby)
     {
         $this->setup();
@@ -25,24 +29,33 @@ class Content
     protected function setup(): void
     {
         $this
-            ->setDeep()
+            ->setDepth()
+            ->setSort()
             ->setContent();
     }
 
-    public function setDeep(): static
+    public function setDepth(): static
     {
-        $this->depth = $this->kirby->option('beebmx.kirby-patrol.depth', 2);
+        $this->depth = $this->kirby->option('beebmx.kirby-patrol.content.depth', 2);
+
+        return $this;
+    }
+
+    public function setSort(): static
+    {
+        $this->sort = $this->kirby->option('beebmx.kirby-patrol.content.sort', 'title');
+        $this->direction = $this->kirby->option('beebmx.kirby-patrol.content.direction', 'asc');
 
         return $this;
     }
 
     protected function setContent(): static
     {
-        $closure = $this->kirby->option('beebmx.kirby-patrol.query');
+        $closure = $this->kirby->option('beebmx.kirby-patrol.content.query');
 
         $this->content = $closure instanceof Closure
             ? $closure($this->kirby->site(), $this->kirby->site()->pages(), $this->kirby)
-            : $this->kirby->site()->children()->published()->not('home', 'error')->sortBy('title');
+            : $this->kirby->site()->children()->published()->not('home', 'error')->sortBy($this->sort, $this->direction);
 
         return $this;
     }
@@ -69,7 +82,7 @@ class Content
                 ? $page
                 : array_merge([
                     ...$page->toArray(),
-                    'children' => $depth < $this->depth ? $this->getContent($page->children()->sortBy('title'), $depth + 1) : [],
+                    'children' => $depth < $this->depth ? $this->getContent($page->children()->sortBy($this->sort, $this->direction), $depth + 1) : [],
                 ])
         )->data();
     }

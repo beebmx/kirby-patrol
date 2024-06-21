@@ -231,16 +231,18 @@ pages()->patrol(bool)
 
 | Option                                     | Default |    Type    | Description                                                                                                       |
 |:-------------------------------------------|:-------:|:----------:|:------------------------------------------------------------------------------------------------------------------|
-| beebmx.kirby-patrol.columns                |    4    |   `int`    | Set how many `columns` will be displayed into the `Kirby Patrol` view.                                            |
-| beebmx.kirby-patrol.depth                  |    2    |   `int`    | Set the `depth` to dig into the `pages` collection.                                                               |
 | beebmx.kirby-patrol.enabled                |  true   |   `bool`   | Enable access in `Kirby Panel`                                                                                    |
 | beebmx.kirby-patrol.icon                   | keyhole |  `string`  | Icon displayed in `Kirby Panel`. Options available are: `flash` `keyhole` `police` `shield` `siren` `star` `user` |
 | beebmx.kirby-patrol.name                   | Patrol  |  `string`  | Set a `string` to display in the `Kirby Panel`.                                                                   |
+| beebmx.kirby-patrol.content.columns        |    4    |   `int`    | Set how many `columns` will be displayed into the `Kirby Patrol` view.                                            |
+| beebmx.kirby-patrol.content.depth          |    2    |   `int`    | Set the `depth` to dig into the `pages` collection.                                                               |
+| beebmx.kirby-patrol.content.direction      |   asc   |  `string`  | Set the sort `direction` of the content.                                                                          |
+| beebmx.kirby-patrol.content.sort           |  title  |  `string`  | Set the `sort` value for the content.                                                                             |
+| beebmx.kirby-patrol.content.query          |  null   | `?Closure` | Use a specific query to display and validate by `Kirby Patrol`. It requires returning a collection of `pages`.    |
 | beebmx.kirby-patrol.permissions.default    |  true   |   `bool`   | Set the `default` values of all the checkboxes when no patrol values are set.                                     |
 | beebmx.kirby-patrol.permissions.enabled    |  true   |   `bool`   | Enable/Disable the default `middleware` functionality.                                                            |
 | beebmx.kirby-patrol.permissions.middleware |   []    |  `array`   | Additional middleware functionality.                                                                              |
 | beebmx.kirby-patrol.permissions.redirect   |  null   | `?string`  | Disabled the default `middleware` functionality and changed it to redirect to a specific URL path.                |
-| beebmx.kirby-patrol.query                  |  null   | `?Closure` | Use a specific query to display and validate by `Kirby Patrol`. It requires returning a collection of `pages`.    |
 
 ## Roadmap
 
