@@ -119,12 +119,11 @@ describe('disabled', function () {
         ];
     });
 
-    it('throws an error if role doesnt have access', function () {
-        $this->kirby->impersonate('john', function () {
-            $middleware = new PatrolMiddleware;
-            $middleware->handle($this->data, fn () => $this->data);
-        });
-    })->throwsNoExceptions();
+    it('wont add PatrolMiddleware if permissions are disabled', function () {
+        expect($this->patrol->middleware())
+            ->toBeArray()
+            ->toBeEmpty();
+    });
 });
 
 describe('guest', function () {

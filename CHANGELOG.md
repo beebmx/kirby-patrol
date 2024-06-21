@@ -2,6 +2,10 @@
 
 All notable changes to `Kirby Patrol` will be documented in this file.
 
+## 1.0.6 - 2024-06-21
+
+- Update how middleware can be disabled, but it can be included manually
+
 ## 1.0.5 - 2024-06-21
 
 - Fixed version

@@ -122,9 +122,11 @@ class Patrol
 
     public function middleware(): array
     {
-        return array_merge([
-            PatrolMiddleware::class,
-        ], $this->kirby->option('beebmx.kirby-patrol.permissions.middleware', []));
+        return array_merge(
+            $this->kirby->option('beebmx.kirby-patrol.permissions.enabled', true)
+                ? [PatrolMiddleware::class]
+                : []
+        , $this->kirby->option('beebmx.kirby-patrol.permissions.middleware', []));
     }
 
     protected function setPath(): static
