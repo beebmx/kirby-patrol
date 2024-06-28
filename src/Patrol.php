@@ -3,7 +3,6 @@
 namespace Beebmx\KirbyPatrol;
 
 use Beebmx\KirbyPatrol\Concerns\UseIterators;
-use Beebmx\KirbyPatrol\Middleware\PatrolMiddleware;
 use Kirby\Cms\App as Kirby;
 use Kirby\Cms\Page;
 use Kirby\Cms\Role;

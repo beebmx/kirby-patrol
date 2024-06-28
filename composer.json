@@ -3,12 +3,14 @@
   "description": "Kirby Patrol for Kirby 4",
   "license": "MIT",
   "type": "kirby-plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "kirby",
     "kirby-4",
     "security",
-    "middleware"
+    "middleware",
+    "users",
+    "roles"
   ],
   "authors": [
     {
@@ -19,7 +21,6 @@
   "require": {
     "php": "^8.2",
     "getkirby/composer-installer": "^1.1",
-    "beebmx/pipeline": "^1.0",
     "beebmx/kirby-middleware": "^1.0"
   },
   "require-dev": {
