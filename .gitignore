@@ -26,3 +26,6 @@ phpunit.xml
 
 # kirbyup temp development entry
 /index.dev.mjs
+
+# Dependencies
+/tests/Fixtures/site/plugins

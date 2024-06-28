@@ -102,6 +102,8 @@ to the visited page, they can normally view the content, but if not, an error pa
 Even when `Kirby Patrol` tries to validate a user, it's possible that behavior won't be enough for your own validation.
 In that case, you can customize and add additional restrictions to every page.
 
+The middleware process is powered by [Kirby Middleware](https://github.com/beebmx/kirby-middleware), and you can use all features if you need to.
+
 #### Closure middleware
 
 The easyest way to add additional validation is with `Closures`.
@@ -109,27 +111,27 @@ Added this in the `config.php` file:
 
 ```php
 use Kirby\Http\Response;
+use Beebmx\KirbyMiddleware\Request;
 
 'beebmx.kirby-patrol' => [
     'permissions' => [
         'middleware' => [
-            function (array $data, Closure $next) {
-                if($data['page']->is('secure-page')) {
+            function (Request $request, Closure $next) {
+                if(page($request->path())->is('secure-page')) {
                     return Response::redirect('login')
                 }
 
-                return $next($data);
+                return $next($request);
             },
         ],
     ],
 ],
 ```
 
-As you can see, the `Closure` requires two parameters: an `array` called `$data` and a `Closure` called `$next`.
-The `$data` array contains at least four elements: `$data['kirby']`, `$data['site']`, `$data['pages']`, and `$data['page']`.
-Those four elements come from a `Kirby Hook`, and you can use them for your own convenience.
+As you can see, the `Closure` requires two parameters: an `Request` called `$request` and a `Closure` called `$next`.
+The `$request` contains the stack of previous validations from Patrol and any other middleware triggered.
 
-The second parameter `$next`, you should call it at the end of the process to proceed to the next validation with the `$data`.
+The second parameter `$next`, you should call it at the end of the process to proceed to the next validation with the `$request`.
 
 > [!NOTE]
 > You can return a `Response::class` object. When you do that, `Kirby Patrol` will automatically send the request.
@@ -151,16 +153,16 @@ If your own validation is more complex for a simple `Closure`, you can use a cus
 And your class should look like:
 
 ```php
+use Beebmx\KirbyMiddleware\Request;
 use Closure;
-use Kirby\Cms\App as Kirby;
+use Kirby\Cms\App;
 use Kirby\Exception\ErrorPageException;
-use Beebmx\KirbyPatrol\Middleware\Middleware;
 
-class MyCustomMiddleware extends Middleware
+class MyCustomMiddleware
 {
-    public function handle(array $data, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        $kirby = Kirby::instance();
+        $kirby = App::instance();
 
         if ($kirby->site()->isDisabled()->toBool()) {
             return throw new ErrorPageException([
@@ -247,6 +249,41 @@ pages()->patrol(bool)
 | beebmx.kirby-patrol.permissions.enabled    |  true   |   `bool`   | Enable/Disable the default `middleware` functionality.                                                            |
 | beebmx.kirby-patrol.permissions.middleware |   []    |  `array`   | Additional middleware functionality.                                                                              |
 | beebmx.kirby-patrol.permissions.redirect   |  null   | `?string`  | Disabled the default `middleware` functionality and changed it to redirect to a specific URL path.                |
+
+Here's an example of a full use of the options from the `config.php` file:
+
+```php
+use Beebmx\KirbyMiddleware\Request;
+use Closure;
+
+'beebmx.kirby-patrol' => [
+    'name' => 'Profiles',
+    'icon' => 'shield',
+    'content' => [
+        'columns' => 4,
+        'depth' => 3,
+        'query' => function (Site $site, Pages $pages, Kirby $kirby) {
+            return $site->find('private-content')->children()->listed();
+        },
+    ],
+    'permissions' => [
+        'redirect' => 'login',
+        'default' => true,
+        'middleware' => [
+            function (Request $request, Closure $next) {
+                if(page($request->path())->id() === 'super-secret-page') {
+                    return throw new ErrorPageException([
+                        'fallback' => 'Unauthorized',
+                        'httpCode' => 401,
+                    ]);
+                }
+
+                return $next($request);
+            },
+        ]
+    ],
+],
+```
 
 ## Roadmap
 

@@ -1,11 +1,17 @@
 <?php
 
+use Beebmx\KirbyMiddleware\Request;
 use Beebmx\KirbyPatrol\Middleware\PatrolMiddleware;
+use Beebmx\KirbyPatrol\Middleware\PatrolMiddlewareGroup;
 use Beebmx\KirbyPatrol\Patrol;
 use Kirby\Cms\Role;
 use Kirby\Exception\ErrorPageException;
 use Kirby\Filesystem\Dir;
 use Kirby\Http\Response;
+
+beforeEach(function () {
+    Request::destroy();
+});
 
 describe('basic', function () {
     beforeEach(function () {
@@ -27,25 +33,22 @@ describe('basic', function () {
         $this->patrol->store(role: $this->admin, permissions: ['blog' => true]);
         $this->patrol->store(role: $this->editor, permissions: ['blog' => false]);
 
-        $this->data = [
-            'kirby' => $this->kirby,
-            'site' => $site = $this->kirby->site(),
-            'pages' => $site->pages(),
-            'page' => $this->kirby->page('blog'),
-        ];
+        Request::instance([
+            'url' => $this->kirby->page('blog')->url(),
+        ]);
     });
 
     it('throws an error if role doesnt have access', function () {
         $this->kirby->impersonate('jane', function () {
             $middleware = new PatrolMiddleware;
-            $middleware->handle($this->data, fn () => $this->data);
+            $middleware->handle(Request::instance(), fn () => Request::instance());
         });
     })->throws(ErrorPageException::class);
 
     it('wont throws an error if role have access', function () {
         $this->kirby->impersonate('john', function () {
             $middleware = new PatrolMiddleware;
-            $middleware->handle($this->data, fn () => $this->data);
+            $middleware->handle(Request::instance(), fn () => Request::instance());
         });
     })->throwsNoExceptions();
 });
@@ -67,25 +70,22 @@ describe('redirect', function () {
         $this->editor = $this->patrol->roles()->get('editor');
         $this->patrol->store(role: $this->editor, permissions: ['blog' => false]);
 
-        $this->data = [
-            'kirby' => $this->kirby,
-            'site' => $site = $this->kirby->site(),
-            'pages' => $site->pages(),
-            'page' => $this->kirby->page('blog'),
-        ];
+        Request::instance([
+            'url' => $this->kirby->page('blog')->url(),
+        ]);
     });
 
     it('wont throws an error if redirect is set', function () {
         $this->kirby->impersonate('john', function () {
             $middleware = new PatrolMiddleware;
-            $middleware->handle($this->data, fn () => $this->data);
+            $middleware->handle(Request::instance(), fn () => Request::instance());
         });
     })->throwsNoExceptions();
 
     it('redirects when permissions.redirect is set', function () {
         $this->kirby->impersonate('john', function () {
             $middleware = new PatrolMiddleware;
-            $redirect = $middleware->handle($this->data, fn () => $this->data);
+            $redirect = $middleware->handle(Request::instance(), fn () => Request::instance());
 
             expect($redirect)
                 ->toBeInstanceOf(Response::class);
@@ -111,16 +111,14 @@ describe('disabled', function () {
         $this->editor = $this->patrol->roles()->get('editor');
         $this->patrol->store(role: $this->editor, permissions: ['blog' => false]);
 
-        $this->data = [
-            'kirby' => $this->kirby,
-            'site' => $site = $this->kirby->site(),
-            'pages' => $site->pages(),
-            'page' => $this->kirby->page('blog'),
-        ];
+        Request::instance([
+            'url' => $this->kirby->page('blog')->url(),
+        ]);
     });
 
     it('wont add PatrolMiddleware if permissions are disabled', function () {
-        expect($this->patrol->middleware())
+        expect(new PatrolMiddlewareGroup)
+            ->group()
             ->toBeArray()
             ->toBeEmpty();
     });
@@ -136,24 +134,21 @@ describe('guest', function () {
         $this->patrol->store(role: $this->admin, permissions: ['blog' => true]);
         $this->patrol->store(role: $this->editor, permissions: ['blog' => false]);
 
-        $this->data = [
-            'kirby' => $this->kirby,
-            'site' => $site = $this->kirby->site(),
-            'pages' => $site->pages(),
-            'page' => $this->kirby->page('home'),
-        ];
+        Request::instance([
+            'url' => $this->kirby->page('home')->url(),
+        ]);
     });
 
     it('wont throws if a guest access to a none validating page', function () {
         $middleware = new PatrolMiddleware;
-        $middleware->handle($this->data, fn () => $this->data);
+        $middleware->handle(Request::instance(), fn () => Request::instance());
     })->throwsNoExceptions();
 
     it('wont throws if a guest access to an invalid page', function () {
         $this->data['page'] = $this->kirby->page('invalid');
 
         $middleware = new PatrolMiddleware;
-        $middleware->handle($this->data, fn () => $this->data);
+        $middleware->handle(Request::instance(), fn () => Request::instance());
     })->throwsNoExceptions();
 });
 
