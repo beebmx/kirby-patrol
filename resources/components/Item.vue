@@ -99,7 +99,6 @@
     flex: 1 1 0;
   }
   .k-patrol-item-heading {
-    color: var(--color-black);
     align-items: baseline;
     border-bottom: solid 1px var(--color-border);
     display: flex;

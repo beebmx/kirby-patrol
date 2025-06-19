@@ -28,7 +28,7 @@ describe('basic', function () {
         ]]);
 
         $this->patrol = new Patrol($this->kirby);
-        $this->admin = Role::admin();
+        $this->admin = method_exists(Role::class, 'admin') ? Role::admin() : Role::defaultAdmin();
         $this->editor = $this->patrol->roles()->get('editor');
         $this->patrol->store(role: $this->admin, permissions: ['blog' => true]);
         $this->patrol->store(role: $this->editor, permissions: ['blog' => false]);
@@ -129,7 +129,7 @@ describe('guest', function () {
         $this->kirby = App();
 
         $this->patrol = new Patrol($this->kirby);
-        $this->admin = Role::admin();
+        $this->admin = method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin();
         $this->editor = $this->patrol->roles()->get('editor');
         $this->patrol->store(role: $this->admin, permissions: ['blog' => true]);
         $this->patrol->store(role: $this->editor, permissions: ['blog' => false]);

@@ -29,7 +29,7 @@ describe('basic', function () {
     });
 
     it('returns permissions for given role', function () {
-        expect($this->permissions->for(Role::admin()))
+        expect($this->permissions->for(method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin()))
             ->toBeArray()
             ->toBe($this->permissions->toArray());
     });

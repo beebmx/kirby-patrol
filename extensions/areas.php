@@ -3,6 +3,7 @@
 use Beebmx\KirbyPatrol\Facades\Patrol;
 use Kirby\Cms\App as Kirby;
 use Kirby\Cms\Permissions;
+use Kirby\Toolkit\Str;
 
 return [
     'patrol' => function (Kirby $kirby): array {
@@ -12,11 +13,19 @@ return [
 
         $access = array_key_exists('beebmx.kirby-patrol', $kirby->user()->role()->permissions()->toArray())
             ? $kirby->user()->role()->permissions()->for('beebmx.kirby-patrol', 'access')
-            : (new Permissions())->for('beebmx.kirby-patrol', 'access');
+            : (new Permissions)->for('beebmx.kirby-patrol', 'access');
 
         if (! $access) {
             return [];
         }
+
+        $version = Str::split(Kirby::instance()->version(), '.')[0];
+
+        $component = match ($version) {
+            '4' => 'k-patrol-view-4',
+            '5' => 'k-patrol-view-5',
+            default => 'k-patrol-view',
+        };
 
         return [
             'label' => $kirby->option('beebmx.kirby-patrol.name', 'Patrol'),
@@ -27,7 +36,7 @@ return [
             'link' => 'patrol',
             'views' => [[
                 'pattern' => 'patrol',
-                'action' => function () {
+                'action' => function () use ($component) {
                     $kirby = Kirby::instance();
 
                     $role = $kirby->roles()->get(
@@ -35,7 +44,7 @@ return [
                     );
 
                     return [
-                        'component' => 'k-patrol-view',
+                        'component' => $component,
                         'title' => $kirby->option('beebmx.kirby-patrol.name', 'Patrol'),
                         'props' => [
                             'columns' => Patrol::columns(

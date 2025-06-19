@@ -2,6 +2,25 @@
 
 All notable changes to `Kirby Patrol` will be documented in this file.
 
+## 1.2.0 - 2025-06-18
+
+- Added support for Kirby@5.x
+- Upgrade to pest@3.x
+- Update github actions
+
+## 1.1.1 - 2024-06-28
+
+- Remove pipeline dependency (still included by Kirby middlewares).
+- Style code applied
+
+## 1.1.0 - 2024-06-28
+
+- Added Kirby middleware
+- Removed basic middleware manipulation
+- Removed unnecessary files for production
+- Cleaned unnecessary code
+- Updated README for the new middleware use
+
 ## 1.0.6 - 2024-06-21
 
 - Update how middleware can be disabled, but it can be included manually

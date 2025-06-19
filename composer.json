@@ -1,16 +1,18 @@
 {
   "name": "beebmx/kirby-patrol",
-  "description": "Kirby Patrol for Kirby 4",
+  "description": "Kirby Patrol for Kirby",
   "license": "MIT",
   "type": "kirby-plugin",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "keywords": [
-    "kirby",
-    "kirby-4",
     "security",
     "middleware",
     "users",
-    "roles"
+    "roles",
+    "kirby",
+    "kirby-plugin",
+    "kirby4",
+    "kirby5"
   ],
   "authors": [
     {
@@ -25,9 +27,9 @@
   },
   "require-dev": {
     "laravel/pint": "^1.10",
-    "pestphp/pest": "^2.0",
+    "pestphp/pest": "^3.0",
     "spatie/ray": "^1.40",
-    "getkirby/cms": "^4.2"
+    "getkirby/cms": "^4.0|^5.0"
   },
   "config": {
     "allow-plugins": {

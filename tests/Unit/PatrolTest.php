@@ -29,7 +29,7 @@ describe('basic', function () {
     });
 
     it('return a path file for given role', function () {
-        expect($this->patrol->pathFor(Role::admin()))
+        expect($this->patrol->pathFor(method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin()))
             ->toEndWith('admin.txt')
             ->toStartWith($this->patrol->path());
     });
@@ -39,7 +39,7 @@ describe('store', function () {
     beforeEach(function () {
         $this->kirby = App();
         $this->patrol = new Patrol($this->kirby);
-        $this->patrol->store(Role::admin(), permissions: [
+        $this->patrol->store(method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin(), permissions: [
             'blog' => false,
             'blog/post-01' => false,
             'blog/post-02' => false,
@@ -55,7 +55,7 @@ describe('store', function () {
     });
 
     it('store data for given role', function () {
-        $permissions = Data::read($this->patrol->pathFor(Role::admin()))['permissions'];
+        $permissions = Data::read($this->patrol->pathFor(method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin()))['permissions'];
 
         expect($permissions)
             ->toBeJson()
@@ -74,7 +74,7 @@ describe('store', function () {
     });
 
     it('can retrive permissions for given role', function () {
-        expect($this->patrol->for(Role::admin()))
+        expect($this->patrol->for(method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin()))
             ->toBeArray()
             ->toHaveKeys(['blog', 'blog/post-01', 'content', 'content/content-01', 'content/extra', 'home']);
     });
@@ -95,7 +95,7 @@ describe('access', function () {
     beforeEach(function () {
         $this->patrol = new Patrol(App());
 
-        $this->admin = Role::admin();
+        $this->admin = method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin();
         $this->editor = $this->patrol->roles()->get('editor');
 
         $this->patrol->store(role: $this->admin, permissions: ['blog' => true]);
@@ -155,7 +155,7 @@ describe('filters', function () {
     beforeEach(function () {
         $this->kirby = App();
         $this->patrol = new Patrol($this->kirby);
-        $this->patrol->store(Role::admin(), permissions: [
+        $this->patrol->store(method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin(), permissions: [
             'blog' => false,
             'blog/post-01' => false,
             'blog/post-02' => false,
@@ -164,14 +164,14 @@ describe('filters', function () {
     });
 
     it('returns pages with access', function () {
-        expect($this->patrol->filterFor(Role::admin()))
+        expect($this->patrol->filterFor(method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin()))
             ->toBeArray()
             ->toContain('content', 'content/content-01', 'content/content-02', 'content/content-03', 'content/content-04', 'content/extra')
             ->not->toContain('blog', 'blog/post-01', 'blog/post-02', 'blog/post-03');
     });
 
     it('returns pages without access', function () {
-        expect($this->patrol->filterFor(role: Role::admin(), access: false))
+        expect($this->patrol->filterFor(role: method_exists(Role::class, 'defaultAdmin') ? Role::defaultAdmin() : Role::admin(), access: false))
             ->toBeArray()
             ->toContain('blog', 'blog/post-01', 'blog/post-02', 'blog/post-03')
             ->not->toContain('content', 'content/content-01', 'content/content-02', 'content/content-03', 'content/content-04', 'content/extra');

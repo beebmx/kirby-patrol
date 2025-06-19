@@ -1,8 +1,12 @@
+import KirbyPatrolView4 from './components/KirbyPatrolView4.vue'
+import KirbyPatrolView5 from './components/KirbyPatrolView5.vue'
 import KirbyPatrolView from './components/KirbyPatrolView.vue'
 
 window.panel.plugin('beebmx/kirby-patrol', {
   components: {
     'k-patrol-view': KirbyPatrolView,
+    'k-patrol-view-4': KirbyPatrolView4,
+    'k-patrol-view-5': KirbyPatrolView5,
   },
   icons: {
     'patrol-shield':
