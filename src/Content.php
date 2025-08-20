@@ -36,22 +36,22 @@ class Content
 
     public function setDepth(): static
     {
-        $this->depth = $this->kirby->option('beebmx.kirby-patrol.content.depth', 2);
+        $this->depth = $this->kirby->option('beebmx.patrol.content.depth', 2);
 
         return $this;
     }
 
     public function setSort(): static
     {
-        $this->sort = $this->kirby->option('beebmx.kirby-patrol.content.sort', 'title');
-        $this->direction = $this->kirby->option('beebmx.kirby-patrol.content.direction', 'asc');
+        $this->sort = $this->kirby->option('beebmx.patrol.content.sort', 'title');
+        $this->direction = $this->kirby->option('beebmx.patrol.content.direction', 'asc');
 
         return $this;
     }
 
     protected function setContent(): static
     {
-        $closure = $this->kirby->option('beebmx.kirby-patrol.content.query');
+        $closure = $this->kirby->option('beebmx.patrol.content.query');
 
         $this->content = $closure instanceof Closure
             ? $closure($this->kirby->site(), $this->kirby->site()->pages(), $this->kirby)

@@ -1,7 +1,7 @@
 <template>
   <k-inside>
     <k-header class="k-patrol-view-header">
-      {{ $t('beebmx.kirby-patrol.permissions') }}
+      {{ $t('beebmx.patrol.permissions') }}
 
       <k-button-group v-if="isDirty" layout="collapsed" slot="buttons">
         <k-button icon="undo" variant="filled" theme="notice" size="sm" :disabled="isDisabled" @click="revert">{{ $t('revert') }}</k-button>

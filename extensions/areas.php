@@ -11,9 +11,9 @@ return [
             return [];
         }
 
-        $access = array_key_exists('beebmx.kirby-patrol', $kirby->user()->role()->permissions()->toArray())
-            ? $kirby->user()->role()->permissions()->for('beebmx.kirby-patrol', 'access')
-            : (new Permissions)->for('beebmx.kirby-patrol', 'access');
+        $access = array_key_exists('beebmx.patrol', $kirby->user()->role()->permissions()->toArray())
+            ? $kirby->user()->role()->permissions()->for('beebmx.patrol', 'access')
+            : (new Permissions)->for('beebmx.patrol', 'access');
 
         if (! $access) {
             return [];
@@ -28,11 +28,11 @@ return [
         };
 
         return [
-            'label' => $kirby->option('beebmx.kirby-patrol.name', 'Patrol'),
+            'label' => $kirby->option('beebmx.patrol.name', 'Patrol'),
             'icon' => Patrol::icon(
-                $kirby->option('beebmx.kirby-patrol.icon', 'shield')
+                $kirby->option('beebmx.patrol.icon', 'shield')
             ),
-            'menu' => $kirby->option('beebmx.kirby-patrol.enabled', false),
+            'menu' => $kirby->option('beebmx.patrol.enabled', false),
             'link' => 'patrol',
             'views' => [[
                 'pattern' => 'patrol',
@@ -45,10 +45,10 @@ return [
 
                     return [
                         'component' => $component,
-                        'title' => $kirby->option('beebmx.kirby-patrol.name', 'Patrol'),
+                        'title' => $kirby->option('beebmx.patrol.name', 'Patrol'),
                         'props' => [
                             'columns' => Patrol::columns(
-                                $kirby->option('beebmx.kirby-patrol.content.columns', 2)
+                                $kirby->option('beebmx.patrol.content.columns', 2)
                             ),
                             'content' => Patrol::content()->toArray(),
                             'patrol' => Patrol::for($role),

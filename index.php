@@ -5,7 +5,7 @@ use Kirby\Cms\App as Kirby;
 
 @include_once __DIR__.'/vendor/autoload.php';
 
-Kirby::plugin('beebmx/kirby-patrol', [
+Kirby::plugin('beebmx/patrol', [
     'api' => [
         'routes' => require_once __DIR__.'/extensions/routes.php',
     ],

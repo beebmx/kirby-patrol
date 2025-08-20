@@ -4,7 +4,7 @@
       <k-choice-input class="k-patrol-coice-input" name="choice" :checked="value" :label="title" @input="toggle" />
 
       <div v-if="showAsHeader">
-        <k-button variant="filled" size="sm" @click="invert" :title="$t('beebmx.kirby-patrol.invert-selection')">{{ $t('beebmx.kirby-patrol.invert') }}</k-button>
+        <k-button variant="filled" size="sm" @click="invert" :title="$t('beebmx.patrol.invert-selection')">{{ $t('beebmx.patrol.invert') }}</k-button>
       </div>
     </div>
 

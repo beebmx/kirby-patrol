@@ -1,6 +1,10 @@
 # Changelog
 
-All notable changes to `Kirby Patrol` will be documented in this file.
+All notable changes to `Patrol` will be documented in this file.
+
+## 1.3.0 - 2025-08-20
+
+- Update plugin prefix to `beebmx.patrol`
 
 ## 1.2.0 - 2025-06-18
 

@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/beebmx/kirby-patrol" target="_blank" rel="noopener"><img src="https://github.com/beebmx/kirby-patrol/blob/main/assets/logo.svg?raw=true" width="125" alt="Kirby Patrol Logo"></a></p>
+<p align="center"><a href="https://github.com/beebmx/kirby-patrol" target="_blank" rel="noopener"><img src="https://github.com/beebmx/kirby-patrol/blob/main/assets/logo.svg?raw=true" width="125" alt="Patrol Logo"></a></p>
 
 <p align="center">
 <a href="https://github.com/beebmx/kirby-patrol/actions"><img src="https://img.shields.io/github/actions/workflow/status/beebmx/kirby-patrol/tests.yml?branch=main" alt="Build Status"></a>
@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/beebmx/kirby-patrol"><img src="https://img.shields.io/packagist/l/beebmx/kirby-patrol" alt="License"></a>
 </p>
 
-# Kirby Patrol
+# Patrol for Kirby
 
 An easy and customizable way to manage access to website pages according to the roles assigned to users within the Kirby panel interface.
 
@@ -37,7 +37,7 @@ composer require beebmx/kirby-patrol
 ## Usage
 
 Out of the box, you don't need to do anything to start using (except for installation),
-but if you require customizing the default behavior, there are some options to personalize `Kirby Patrol`.
+but if you require customizing the default behavior, there are some options to personalize `Patrol`.
 
 ### Panel
 
@@ -49,7 +49,7 @@ If you need to restrict this behavior, you can do so by adding the permission in
 title: Editor
 
 permissions:
-  beebmx.kirby-patrol:
+  beebmx.patrol:
     access: false
 ```
 
@@ -65,7 +65,7 @@ use Kirby\Cms\App;
 use Kirby\Cms\Pages;
 use Kirby\Cms\Site;
 
-'beebmx.kirby-patrol' => [
+'beebmx.patrol' => [
     'content' => [
         'query' => function (Site $site, Pages $pages, App $kirby) {
             return $site->find('secure-page')->children()->listed();
@@ -77,20 +77,20 @@ use Kirby\Cms\Site;
 And if you need to update the `depth` of the pages displayed, update the `config.php` file:
 
 ```php
-'beebmx.kirby-patrol' => [
+'beebmx.patrol' => [
     'content' => [
         'depth' => 3,
     ],
 ],
 ```
 
-Here's an example of `Kirby Patrol` view page:
+Here's an example of `Patrol` view page:
 
 ![Patrol panel example](https://raw.githubusercontent.com/beebmx/kirby-patrol/main/assets/patrol-panel.png)
 
 ### Frontend
 
-When a logged-in user visits any page, `Kirby Patrol` will automatically validate the request. If the user has access
+When a logged-in user visits any page, `Patrol` will automatically validate the request. If the user has access
 to the visited page, they can normally view the content, but if not, an error page will be thrown with a `401` status code.
 
 > [!WARNING]
@@ -99,10 +99,10 @@ to the visited page, they can normally view the content, but if not, an error pa
 
 ### Middleware
 
-Even when `Kirby Patrol` tries to validate a user, it's possible that behavior won't be enough for your own validation.
+Even when `Patrol` tries to validate a user, it's possible that behavior won't be enough for your own validation.
 In that case, you can customize and add additional restrictions to every page.
 
-The middleware process is powered by [Kirby Middleware](https://github.com/beebmx/kirby-middleware), and you can use all features if you need to.
+The middleware process is powered by [Middleware](https://github.com/beebmx/kirby-middleware), and you can use all features if you need to.
 
 #### Closure middleware
 
@@ -113,7 +113,7 @@ Added this in the `config.php` file:
 use Kirby\Http\Response;
 use Beebmx\KirbyMiddleware\Request;
 
-'beebmx.kirby-patrol' => [
+'beebmx.patrol' => [
     'permissions' => [
         'middleware' => [
             function (Request $request, Closure $next) {
@@ -134,14 +134,14 @@ The `$request` contains the stack of previous validations from Patrol and any ot
 The second parameter `$next`, you should call it at the end of the process to proceed to the next validation with the `$request`.
 
 > [!NOTE]
-> You can return a `Response::class` object. When you do that, `Kirby Patrol` will automatically send the request.
+> You can return a `Response::class` object. When you do that, `Patrol` will automatically send the request.
 
 #### Class middleware
 
 If your own validation is more complex for a simple `Closure`, you can use a custom class for that purpose:
 
 ```php
-'beebmx.kirby-patrol' => [
+'beebmx.patrol' => [
     'permissions' => [
         'middleware' => [
             MyCustomMiddleware::class,
@@ -186,7 +186,7 @@ Your middleware logic should be inside the `handle` method; otherwise, the middl
 Sometimes you don't need an error in your website to display an error, in that cases you can make a redireccion:
 
 ```php
-'beebmx.kirby-patrol' => [
+'beebmx.patrol' => [
     'permissions' => [
         'redirect' => 'login',
     ],
@@ -235,20 +235,23 @@ pages()->patrol(bool)
 
 ## Options
 
-| Option                                     | Default |    Type    | Description                                                                                                       |
-|:-------------------------------------------|:-------:|:----------:|:------------------------------------------------------------------------------------------------------------------|
-| beebmx.kirby-patrol.enabled                |  true   |   `bool`   | Enable access in `Kirby Panel`                                                                                    |
-| beebmx.kirby-patrol.icon                   | keyhole |  `string`  | Icon displayed in `Kirby Panel`. Options available are: `flash` `keyhole` `police` `shield` `siren` `star` `user` |
-| beebmx.kirby-patrol.name                   | Patrol  |  `string`  | Set a `string` to display in the `Kirby Panel`.                                                                   |
-| beebmx.kirby-patrol.content.columns        |    4    |   `int`    | Set how many `columns` will be displayed into the `Kirby Patrol` view.                                            |
-| beebmx.kirby-patrol.content.depth          |    2    |   `int`    | Set the `depth` to dig into the `pages` collection.                                                               |
-| beebmx.kirby-patrol.content.direction      |   asc   |  `string`  | Set the sort `direction` of the content.                                                                          |
-| beebmx.kirby-patrol.content.sort           |  title  |  `string`  | Set the `sort` value for the content.                                                                             |
-| beebmx.kirby-patrol.content.query          |  null   | `?Closure` | Use a specific query to display and validate by `Kirby Patrol`. It requires returning a collection of `pages`.    |
-| beebmx.kirby-patrol.permissions.default    |  true   |   `bool`   | Set the `default` values of all the checkboxes when no patrol values are set.                                     |
-| beebmx.kirby-patrol.permissions.enabled    |  true   |   `bool`   | Enable/Disable the default `middleware` functionality.                                                            |
-| beebmx.kirby-patrol.permissions.middleware |   []    |  `array`   | Additional middleware functionality.                                                                              |
-| beebmx.kirby-patrol.permissions.redirect   |  null   | `?string`  | Disabled the default `middleware` functionality and changed it to redirect to a specific URL path.                |
+| Option                               | Default |    Type    | Description                                                                                                       |
+|:-------------------------------------|:-------:|:----------:|:------------------------------------------------------------------------------------------------------------------|
+| beebmx.patrol.enabled                |  true   |   `bool`   | Enable access in `Kirby Panel`                                                                                    |
+| beebmx.patrol.icon                   | keyhole |  `string`  | Icon displayed in `Kirby Panel`. Options available are: `flash` `keyhole` `police` `shield` `siren` `star` `user` |
+| beebmx.patrol.name                   | Patrol  |  `string`  | Set a `string` to display in the `Kirby Panel`.                                                                   |
+| beebmx.patrol.content.columns        |    4    |   `int`    | Set how many `columns` will be displayed into the `Patrol` view.                                                  |
+| beebmx.patrol.content.depth          |    2    |   `int`    | Set the `depth` to dig into the `pages` collection.                                                               |
+| beebmx.patrol.content.direction      |   asc   |  `string`  | Set the sort `direction` of the content.                                                                          |
+| beebmx.patrol.content.sort           |  title  |  `string`  | Set the `sort` value for the content.                                                                             |
+| beebmx.patrol.content.query          |  null   | `?Closure` | Use a specific query to display and validate by `Patrol`. It requires returning a collection of `pages`.          |
+| beebmx.patrol.permissions.default    |  true   |   `bool`   | Set the `default` values of all the checkboxes when no patrol values are set.                                     |
+| beebmx.patrol.permissions.enabled    |  true   |   `bool`   | Enable/Disable the default `middleware` functionality.                                                            |
+| beebmx.patrol.permissions.middleware |   []    |  `array`   | Additional middleware functionality.                                                                              |
+| beebmx.patrol.permissions.redirect   |  null   | `?string`  | Disabled the default `middleware` functionality and changed it to redirect to a specific URL path.                |
+
+> [!WARNING]
+> Since version `1.3.0`, `Patrol` changes the plugin prefix from `beebmx.kirby-patrol` to `beebmx.patrol`.
 
 Here's an example of a full use of the options from the `config.php` file:
 
@@ -256,7 +259,7 @@ Here's an example of a full use of the options from the `config.php` file:
 use Beebmx\KirbyMiddleware\Request;
 use Closure;
 
-'beebmx.kirby-patrol' => [
+'beebmx.patrol' => [
     'name' => 'Profiles',
     'icon' => 'shield',
     'content' => [

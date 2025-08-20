@@ -24,17 +24,17 @@ it('contains locale as key', function () {
 it('can return an specific locale', function () {
     expect(Translation::locale('es'))
         ->toBeArray()
-        ->toHaveKey('beebmx.kirby-patrol.name', 'Patrulla');
+        ->toHaveKey('beebmx.patrol.name', 'Patrulla');
 });
 
 test('if a locale doesnt have a valid key, it will return an english as default', function () {
     expect(Translation::locale('invalid'))
         ->toBeArray()
-        ->toHaveKey('beebmx.kirby-patrol.name', 'Patrol');
+        ->toHaveKey('beebmx.patrol.name', 'Patrol');
 });
 
 it('returns an specific key in all localizations available', function () {
-    expect(Translation::key('beebmx.kirby-patrol.name'))
+    expect(Translation::key('beebmx.patrol.name'))
         ->toBeArray()
         ->toHaveKey('en', 'Patrol')
         ->toHaveKey('es', 'Patrulla');

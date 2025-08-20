@@ -20,8 +20,8 @@ class PatrolMiddleware
         );
 
         if (Patrol::exists(page: $page) && Patrol::can(role: $request->user()->role(), page: $page->id()) === false) {
-            return $kirby->option('beebmx.kirby-patrol.permissions.redirect') !== null
-                ? Response::redirect($kirby->option('beebmx.kirby-patrol.permissions.redirect'), 401)
+            return $kirby->option('beebmx.patrol.permissions.redirect') !== null
+                ? Response::redirect($kirby->option('beebmx.patrol.permissions.redirect'), 401)
                 : throw new ErrorPageException([
                     'fallback' => 'Unauthorized',
                     'httpCode' => 401,

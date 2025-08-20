@@ -15,8 +15,8 @@ class PatrolMiddlewareGroup extends MiddlewareGroup
 
     public function __construct()
     {
-        $this->group = App::instance()->option('beebmx.kirby-patrol.permissions.enabled', true)
-            ? array_merge($this->group, App::instance()->option('beebmx.kirby-patrol.permissions.middleware', []))
+        $this->group = App::instance()->option('beebmx.patrol.permissions.enabled', true)
+            ? array_merge($this->group, App::instance()->option('beebmx.patrol.permissions.middleware', []))
             : [];
     }
 }

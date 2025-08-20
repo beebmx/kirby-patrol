@@ -57,7 +57,7 @@ describe('redirect', function () {
     beforeEach(function () {
         $this->kirby = App(
             options: [
-                'beebmx.kirby-patrol.permissions.redirect' => 'home',
+                'beebmx.patrol.permissions.redirect' => 'home',
             ], users: [[
                 'email' => 'john@doe.co',
                 'id' => 'john',
@@ -98,7 +98,7 @@ describe('disabled', function () {
     beforeEach(function () {
         $this->kirby = App(
             options: [
-                'beebmx.kirby-patrol.permissions.enabled' => false,
+                'beebmx.patrol.permissions.enabled' => false,
             ], users: [[
                 'email' => 'john@doe.co',
                 'id' => 'john',

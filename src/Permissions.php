@@ -33,7 +33,7 @@ class Permissions
 
     protected function setDefault(): static
     {
-        $this->default = $this->kirby->option('beebmx.kirby-patrol.permissions.default', true);
+        $this->default = $this->kirby->option('beebmx.patrol.permissions.default', true);
 
         return $this;
     }
